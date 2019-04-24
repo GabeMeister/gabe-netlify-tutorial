@@ -1,26 +1,33 @@
 import React from 'react';
+import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This is Gabes Netlify App.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    quote: ''
+  }
+
+  componentDidMount() {
+    axios.get('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
+      .then(response => {
+        this.setState({
+          quote: response.data[0]
+        });
+      });
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <div>
+            {this.state.quote}
+          </div>
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
